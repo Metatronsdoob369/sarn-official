@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    environment: production
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Agent Quality Gate (Lint)
+      run: npm run lint
+
+    - name: Agent Quality Gate (Build)
+      run: npm run build
+
+    # Ready for Automated Agent Deployment
+    # This step is the "Agent" pushing the code to the live server once the gates are green.
+    # - name: Deploy to Production
+    #   if: github.ref == 'refs/heads/main'
+    #   run: |
+    #     echo "Agent-Led Deployment Initiated..."
+    #     # Add your deployment command here (e.g., vercel deploy --prod)

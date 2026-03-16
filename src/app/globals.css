@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* ═══════════════════════════════════════
+     SARN DESIGN SYSTEM
+     Luxury Racing · Chrome · Precision
+     "Door closes. Engine breathes."
+     ═══════════════════════════════════════ */
+
+  /* Surfaces */
+  --void:          #07080b;
+  --plate:         #0d0e13;
+  --lift:          #13141b;
+  --rail:          rgba(255,255,255,0.06);
+  --rail-hot:      rgba(220,225,240,0.18);
+
+  /* Chrome — the material */
+  --chrome-shadow: #2e313a;
+  --chrome-body:   #6e7380;
+  --chrome-light:  #b8bdc8;
+  --chrome-peak:   #e4e8f0;
+
+  /* Text */
+  --text:          #d0d4de;
+  --text-dim:      #555a68;
+  --text-ghost:    #23252e;
+
+  /* Accents — once per section, intentional */
+  --signal:        #ffffff;
+  --ember:         #b86c2a;
+  --ember-dim:     rgba(184,108,42,0.10);
+
+  /* Typography */
+  --font-body:     'Inter', system-ui, sans-serif;
+  --font-hero:     'Syne', system-ui, sans-serif;
+  --font-mono:     'JetBrains Mono', 'Fira Code', monospace;
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--void);
+    color: var(--text);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    background-image: url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 3h1v1H1V3zm2-2h1v1H3V1z' fill='rgba(255,255,255,0.015)'/%3E%3C/svg%3E");
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-hero);
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .plate {
+    background: var(--plate);
+    border: 1px solid var(--rail);
+  }
+
+  .illuminated {
+    border: 1px solid var(--rail);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .illuminated:hover {
+    border-color: var(--rail-hot);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+
+  .text-chrome {
+    background: linear-gradient(160deg, var(--chrome-peak) 0%, var(--chrome-light) 45%, var(--chrome-body) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .ember-line {
+    border-left: 2px solid var(--ember);
+    background: var(--ember-dim);
+  }
+
+  .label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+}
