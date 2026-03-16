@@ -24,6 +24,9 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    - name: Type Check
+      run: npx tsc --noEmit
+
     - name: Agent Quality Gate (Lint)
       run: npm run lint
 
