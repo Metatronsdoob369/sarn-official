@@ -1,12 +1,14 @@
 {
-  "name": "scratch",
+  "name": "sarn-official",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "preflight": "tsc --noEmit && next lint && next build"
   },
   "dependencies": {
     "animejs": "^3.2.2",
