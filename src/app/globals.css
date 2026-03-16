@@ -89,4 +89,32 @@
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
+
+  .prose-sarn {
+    max-width: 100%;
+  }
+
+  .post-card {
+    background: #0d0e13;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: border-color 0.2s;
+  }
+  .post-card:hover {
+    border-color: rgba(220, 225, 240, 0.14);
+  }
+  .post-card-read {
+    color: #2e313a;
+    transition: color 0.2s;
+  }
+  .post-card:hover .post-card-read {
+    color: #b86c2a;
+  }
+
+  .back-link {
+    color: #2e313a;
+    transition: color 0.15s;
+  }
+  .back-link:hover {
+    color: #b86c2a;
+  }
 }
