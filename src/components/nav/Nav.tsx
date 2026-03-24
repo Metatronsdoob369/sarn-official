@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import SShield from "@/components/ui/SShield";
 
 const links = [
-  { label: "RACING", href: "/racing" },
-  { label: "SIGNAL", href: "/signal" },
+  { label: "RACING",  href: "/racing" },
+  { label: "CIRCUIT", href: "/circuit" },
+  { label: "SIGNAL",  href: "/signal" },
   { label: "NETWORK", href: "/network" },
 ];
 
@@ -31,18 +33,12 @@ export function Nav() {
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
 
-        {/* Horizontal chrome plaque */}
-        <Link href="/" className="group flex items-center gap-4 select-none">
-          <div className="relative flex h-9 w-9 items-center justify-center rounded-sm border border-[rgba(255,255,255,0.06)] bg-[#0d0e13] transition-all duration-300 group-hover:border-[rgba(220,225,240,0.18)]">
-            <span className="font-mono text-[10px] font-bold tracking-widest text-[#b8bdc8] transition-colors duration-300 group-hover:text-[#e4e8f0]">
-              A
-            </span>
-            <span className="absolute inset-0 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-[rgba(255,255,255,0.05)] to-transparent" />
-          </div>
-
+        {/* S-shield + SARN+ wordmark lockup */}
+        <Link href="/" className="group flex items-center gap-3 select-none">
+          <SShield size="32px" chrome />
           <div className="flex flex-col leading-none">
             <span
-              className="font-hero font-bold tracking-[0.18em] text-[17px] transition-all duration-300"
+              className="font-hero font-bold tracking-[0.12em] text-[18px]"
               style={{
                 background: "linear-gradient(160deg, #e4e8f0 0%, #b8bdc8 45%, #6e7380 100%)",
                 WebkitBackgroundClip: "text",
@@ -50,9 +46,9 @@ export function Nav() {
                 backgroundClip: "text",
               }}
             >
-              SARN
+              SARN<span style={{ WebkitTextFillColor: "#b86c2a", color: "#b86c2a" }}>+</span>
             </span>
-            <span className="font-mono text-[7.5px] tracking-[0.22em] text-[#555a68] mt-[3px] uppercase">
+            <span className="font-mono text-[7px] tracking-[0.2em] uppercase mt-[3px]" style={{ color: "#2e3040" }}>
               Sovereign Autonomous Racing Network
             </span>
           </div>

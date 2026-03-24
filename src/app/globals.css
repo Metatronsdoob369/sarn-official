@@ -29,8 +29,10 @@
 
   /* Accents — once per section, intentional */
   --signal:        #ffffff;
-  --ember:         #b86c2a;
-  --ember-dim:     rgba(184,108,42,0.10);
+  --ember:         #e07820;           /* racing orange — hot metal, not aged copper */
+  --ember-dim:     rgba(224,120,32,0.10);
+  --pulse:         #1ae8ff;           /* speed/tech cyan — Tron edge, used sparingly */
+  --pulse-dim:     rgba(26,232,255,0.08);
 
   /* Typography */
   --font-body:     'Inter', system-ui, sans-serif;
@@ -107,7 +109,7 @@
     transition: color 0.2s;
   }
   .post-card:hover .post-card-read {
-    color: #b86c2a;
+    color: #e07820;
   }
 
   .back-link {
@@ -115,6 +117,6 @@
     transition: color 0.15s;
   }
   .back-link:hover {
-    color: #b86c2a;
+    color: #e07820;
   }
 }

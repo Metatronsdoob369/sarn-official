@@ -1,12 +1,18 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import SShield from "@/components/ui/SShield";
+
+// CarBackground is WebGL — must be client-only, no SSR
+const CarBackground = dynamic(() => import("@/components/ui/CarBackground"), { ssr: false });
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col">
-      <section className="flex-1 flex flex-col justify-center px-6 pt-32 pb-24 max-w-5xl mx-auto w-full">
+    <main className="min-h-screen flex flex-col" style={{ position: "relative" }}>
+      <CarBackground />
+      <section className="flex-1 flex flex-col justify-center px-6 pt-32 pb-24 max-w-5xl mx-auto w-full" style={{ position: "relative", zIndex: 1 }}>
 
         <motion.div
           initial={{ opacity: 0, x: -16 }}
@@ -32,9 +38,9 @@ export default function Home() {
             backgroundClip: "text",
           }}
         >
-          Speed culture<br />
-          doesn&apos;t stop.<br />
-          It migrates.
+          The <SShield size="0.78em" />&thinsp;ignal<br />
+          Before The<br />
+          Podium.
         </motion.h1>
 
         <motion.p
@@ -79,7 +85,7 @@ export default function Home() {
 
       <div
         className="px-6 py-5 max-w-5xl mx-auto w-full flex items-center justify-between"
-        style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}
+        style={{ borderTop: "1px solid rgba(255,255,255,0.04)", position: "relative", zIndex: 1 }}
       >
         <span className="font-mono text-[9px] tracking-[0.18em] uppercase" style={{ color: "#23252e" }}>
           1 Human · 3 Systems · 1 Graph · 2 AIs

@@ -11,6 +11,7 @@
     "preflight": "tsc --noEmit && next lint && next build"
   },
   "dependencies": {
+    "@types/three": "^0.183.1",
     "animejs": "^3.2.2",
     "framer-motion": "^11.0.0",
     "gray-matter": "^4.0.3",
@@ -18,13 +19,15 @@
     "next": "^14.2.22",
     "react": "^18",
     "react-dom": "^18",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.3.12",
+    "three": "^0.183.2"
   },
   "devDependencies": {
     "@types/animejs": "^3.1.13",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/styled-components": "^5.1.36",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.22",
     "postcss": "^8",
