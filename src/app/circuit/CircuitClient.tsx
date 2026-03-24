@@ -176,10 +176,20 @@ function ArticleCard({ article, index }: { article: Article; index: number }) {
     if (!article.publishedAt) return null;
     const diff = Date.now() - new Date(article.publishedAt).getTime();
     const h = Math.floor(diff / 3_600_000);
-    if (h < 1)  return "< 1h ago";
-    if (h < 24) return `${h}h ago`;
-    return `${Math.floor(h / 24)}d ago`;
+    if (h < 1)  return "< 1h";
+    if (h < 24) return `${h}h`;
+    const d = Math.floor(h / 24);
+    if (d < 7)  return `${d}d`;
+    return `${Math.floor(d / 7)}w`;
   })();
+
+  // Signal score: 0–2 range from GAT, normalize to 0–1 for display
+  const scoreNorm = Math.min(1, Math.max(0, article.signalScore / 2));
+  const scorePct  = Math.round(scoreNorm * 100);
+
+  const cleanSummary = article.summary
+    ? article.summary.split("Article URL:")[0].trim() || article.summary
+    : null;
 
   return (
     <motion.a
@@ -189,36 +199,45 @@ function ArticleCard({ article, index }: { article: Article; index: number }) {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.02, duration: 0.3 }}
-      className="group block p-6 transition-all duration-200"
+      className="group relative flex flex-col p-5 transition-all duration-200"
       style={{
         background: "#0d0e13",
         border: "1px solid rgba(255,255,255,0.04)",
       }}
-      onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(184,108,42,0.2)")}
+      onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(184,108,42,0.22)")}
       onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.04)")}
     >
-      {/* Source credit + time */}
-      <div className="flex items-center justify-between mb-3">
+      {/* Top: source + time + sector */}
+      <div className="flex items-center gap-2 mb-3 flex-wrap">
         <span
-          className="font-mono text-[9px] tracking-[0.18em] uppercase px-2 py-0.5 rounded-sm"
+          className="font-mono text-[9px] tracking-[0.16em] uppercase px-2 py-0.5"
           style={{
             color: "#b86c2a",
             background: "rgba(184,108,42,0.07)",
-            border: "1px solid rgba(184,108,42,0.18)",
+            border: "1px solid rgba(184,108,42,0.16)",
           }}
         >
           {article.source}
         </span>
-        {timeAgo && (
-          <span className="font-mono text-[9px]" style={{ color: "#23252e" }}>
-            {timeAgo}
+        {article.sector && article.sector !== "racing" && (
+          <span
+            className="font-mono text-[9px] tracking-[0.14em] uppercase px-2 py-0.5"
+            style={{
+              color: "#555a68",
+              border: "1px solid rgba(255,255,255,0.06)",
+            }}
+          >
+            {article.sector}
           </span>
         )}
+        <span className="ml-auto font-mono text-[9px]" style={{ color: "#2e313a" }}>
+          {timeAgo}
+        </span>
       </div>
 
       {/* Title */}
       <h2
-        className="font-hero font-semibold text-[15px] leading-snug mb-2 transition-colors duration-200"
+        className="font-hero font-semibold text-[14px] leading-snug mb-2 flex-1"
         style={{ color: "#6e7380" }}
       >
         <span className="group-hover:text-[#b8bdc8] transition-colors duration-200">
@@ -227,20 +246,39 @@ function ArticleCard({ article, index }: { article: Article; index: number }) {
       </h2>
 
       {/* Summary */}
-      {article.summary && (
+      {cleanSummary && (
         <p
-          className="text-[12px] leading-relaxed line-clamp-2 mb-4"
-          style={{ color: "#23252e" }}
+          className="text-[12px] leading-relaxed line-clamp-3 mb-4"
+          style={{ color: "#2e313a" }}
         >
-          {article.summary.split("Article URL:")[0].trim() || article.summary}
+          {cleanSummary}
         </p>
       )}
 
-      {/* Footer */}
-      <div className="flex items-center justify-between">
-        <span className="font-mono text-[9px]" style={{ color: "#1e2028" }}>
+      {/* Footer: domain + signal score + read arrow */}
+      <div className="flex items-center justify-between mt-auto pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+        <span className="font-mono text-[9px]" style={{ color: "#23252e" }}>
           {domain}
         </span>
+
+        {/* Signal score bar */}
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-[2px]">
+            {[...Array(5)].map((_, i) => (
+              <span
+                key={i}
+                className="block h-[3px] w-[6px] rounded-full transition-all duration-300"
+                style={{
+                  background: i < Math.round(scoreNorm * 5)
+                    ? "rgba(184,108,42,0.7)"
+                    : "rgba(255,255,255,0.06)",
+                }}
+              />
+            ))}
+          </div>
+          <span className="font-mono text-[8px]" style={{ color: "#23252e" }}>{scorePct}</span>
+        </div>
+
         <span
           className="font-mono text-[9px] tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-200"
           style={{ color: "#b86c2a" }}

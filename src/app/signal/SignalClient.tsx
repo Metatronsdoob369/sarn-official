@@ -121,12 +121,7 @@ export default function SignalClient({ signal }: { signal: SignalRun | null }) {
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
                 <SectionLabel>Signal Breakdown</SectionLabel>
-                <div
-                  className="mt-3 text-sm leading-relaxed whitespace-pre-wrap"
-                  style={{ color: "#555a68" }}
-                >
-                  {breakdown}
-                </div>
+                <BreakdownBody text={breakdown} />
               </motion.div>
             )}
 
@@ -194,6 +189,61 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
       <span className="font-mono text-[10px] tracking-[0.2em] uppercase" style={{ color: "#b86c2a" }}>
         {children}
       </span>
+    </div>
+  );
+}
+
+function BreakdownBody({ text }: { text: string }) {
+  // Render markdown-lite: bold headers (** **), bullet lists, plain paragraphs
+  const lines = text.split("\n");
+
+  return (
+    <div className="mt-3 flex flex-col gap-2">
+      {lines.map((line, i) => {
+        const trimmed = line.trim();
+        if (!trimmed) return null;
+
+        // Bold header: **text** or **text:**
+        if (/^\*\*[^*]+\*\*:?$/.test(trimmed)) {
+          const label = trimmed.replace(/^\*\*|\*\*:?$/g, "");
+          return (
+            <p key={i} className="font-mono text-[10px] tracking-[0.15em] uppercase mt-4 first:mt-0" style={{ color: "#b86c2a" }}>
+              {label}
+            </p>
+          );
+        }
+
+        // Bullet: - text or • text
+        if (/^[-•]\s/.test(trimmed)) {
+          return (
+            <div key={i} className="flex gap-2">
+              <span className="font-mono text-[11px] mt-[2px]" style={{ color: "#b86c2a" }}>—</span>
+              <p className="text-[13px] leading-relaxed" style={{ color: "#555a68" }}>
+                {trimmed.replace(/^[-•]\s/, "")}
+              </p>
+            </div>
+          );
+        }
+
+        // Numbered list: 1. text
+        if (/^\d+\.\s/.test(trimmed)) {
+          const num  = trimmed.match(/^(\d+)\./)?.[1];
+          const body = trimmed.replace(/^\d+\.\s/, "");
+          return (
+            <div key={i} className="flex gap-3">
+              <span className="font-mono text-[10px] mt-[3px] w-4 shrink-0" style={{ color: "#b86c2a" }}>{num}.</span>
+              <p className="text-[13px] leading-relaxed" style={{ color: "#555a68" }}>{body}</p>
+            </div>
+          );
+        }
+
+        // Plain paragraph
+        return (
+          <p key={i} className="text-[13px] leading-relaxed" style={{ color: "#555a68" }}>
+            {trimmed}
+          </p>
+        );
+      })}
     </div>
   );
 }
